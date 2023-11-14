@@ -8,7 +8,7 @@
 #include <gtkmm.h>
 #include <iostream>
 
-//#include "../db/db.h"
+#include "../db/db.h"
 
 class Manager : public Gtk::Window
 {

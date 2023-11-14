@@ -50,7 +50,7 @@ void Manager::on_validate_clicked()
         show_alert("Veuillez remplir tous les champs");
         return;
     }
-    std::cout << "Login: " << (login.get_text()) << std::endl;
+    std::cout << "Login: " << sha256(login.get_text()) << std::endl;
     std::cout << "Password: " << mdp.get_text() << std::endl;
 }
 
