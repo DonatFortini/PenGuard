@@ -2,7 +2,7 @@
 
 Manager::Manager(void) : fieldBox(Gtk::Orientation::ORIENTATION_VERTICAL)
 {
-    set_icon_from_file("./assets/logo120x120.png");
+    set_icon_from_file("src/assets/logo120x120.png");
     set_name("PenGuard");
     set_title("PenGuard");
     set_default_size(400, 600);                        // width, height
@@ -15,7 +15,7 @@ Manager::Manager(void) : fieldBox(Gtk::Orientation::ORIENTATION_VERTICAL)
     mainBox.add(logoBox);
     mainBox.add(fieldBox);
 
-    logo.set("./assets/logo240x240.png");
+    logo.set("src/assets/logo240x240.png");
     logoBox.add(logo);
     logoBox.set_hexpand(true);
 
@@ -50,7 +50,7 @@ void Manager::on_validate_clicked()
         show_alert("Veuillez remplir tous les champs");
         return;
     }
-    std::cout << "Login: " << login.get_text() << std::endl;
+    std::cout << "Login: " << (login.get_text()) << std::endl;
     std::cout << "Password: " << mdp.get_text() << std::endl;
 }
 
@@ -64,3 +64,4 @@ void Manager::show_alert(const std::string &message)
     Gtk::MessageDialog dialog(*this, message, false, Gtk::MessageType::MESSAGE_ERROR, Gtk::ButtonsType::BUTTONS_OK, true);
     dialog.run();
 }
+

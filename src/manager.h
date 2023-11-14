@@ -6,9 +6,9 @@
 #include <gtkmm/grid.h>
 #include <gtkmm/image.h>
 #include <gtkmm.h>
+#include <iostream>
 
-#include <string.h>
-#include "../db/db.h"
+//#include "../db/db.h"
 
 class Manager : public Gtk::Window
 {
@@ -18,7 +18,6 @@ public:
     void on_validate_clicked();
     bool isNotEmpty();
     void show_alert(const std::string &message);
-
 protected:
     Gtk::Box mainBox;
     Gtk::Box fieldBox;
