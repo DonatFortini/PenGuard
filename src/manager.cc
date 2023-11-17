@@ -50,11 +50,10 @@ void Manager::on_validate_clicked()
         show_alert("Veuillez remplir tous les champs");
         return;
     }
-    std::cout << "Login: " << sha256(login.get_text()) << std::endl;
-    std::cout << "Password: " << mdp.get_text() << std::endl;
+    checkUser(login.get_text(), mdp.get_text()) ? logged.emit(login.get_text()) : show_alert("Login ou mot de passe incorrect");
 }
 
-bool Manager::isNotEmpty()
+bool Manager::isNotEmpty(void)
 {
     return login.get_text() != "" && mdp.get_text() != "";
 }
@@ -63,5 +62,10 @@ void Manager::show_alert(const std::string &message)
 {
     Gtk::MessageDialog dialog(*this, message, false, Gtk::MessageType::MESSAGE_ERROR, Gtk::ButtonsType::BUTTONS_OK, true);
     dialog.run();
+}
+
+Manager::send Manager::logged_signal()
+{
+    return logged;
 }
 
