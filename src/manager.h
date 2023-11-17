@@ -16,7 +16,7 @@ public:
     Manager(void);
     ~Manager();
     void on_validate_clicked(void);
-    bool isNotEmpty(void);
+    bool is_not_empty(void);
     void show_alert(const std::string &message);
     // signal accessors:
     using send = sigc::signal<void, std::string>;

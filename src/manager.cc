@@ -21,6 +21,8 @@ Manager::Manager(void) : fieldBox(Gtk::Orientation::ORIENTATION_VERTICAL)
 
     mdp.set_placeholder_text("Mot de passe");
     mdp.set_hexpand(true);
+    mdp.set_visibility(false);
+    
 
     login.set_placeholder_text("Login");
     login.set_hexpand(true);
@@ -45,7 +47,7 @@ Manager::~Manager()
 
 void Manager::on_validate_clicked()
 {
-    if (!isNotEmpty())
+    if (!is_not_empty())
     {
         show_alert("Veuillez remplir tous les champs");
         return;
@@ -53,7 +55,7 @@ void Manager::on_validate_clicked()
     checkUser(login.get_text(), mdp.get_text()) ? logged.emit(login.get_text()) : show_alert("Login ou mot de passe incorrect");
 }
 
-bool Manager::isNotEmpty(void)
+bool Manager::is_not_empty(void)
 {
     return login.get_text() != "" && mdp.get_text() != "";
 }
