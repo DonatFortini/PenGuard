@@ -24,7 +24,7 @@ PenGuard est un gestionnaire de mots de passe simple et sécurisé développé e
 
 - **mysql-lib-dev** Assurez-vous d'avoir GTKmm installé sur votre système. Vous pouvez le télécharger avec cette commande :
 ```bash
-sudo apt install 
+sudo apt install libmysqlcppconn-dev
 ```
  
 - **Compilateur C++ :** Un compilateur C++ compatible C++11 est nécessaire. Vous pouvez utiliser GCC, Clang, ou tout autre compilateur compatible.
