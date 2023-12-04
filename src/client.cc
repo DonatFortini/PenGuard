@@ -1,16 +1,16 @@
 #include "client.h"
 
-Client::Client(std::string login)
+Client::Client(std::string login) : logged_user(login),
+                                    nb_passwords(0)
 {
     set_icon_from_file("src/assets/logo120x120.png");
-    this->logged_user = login;
     set_name("PenGuard");
     set_title("PenGuard");
     set_default_size(1200, 800);                       // width, height
     set_position(Gtk::WindowPosition::WIN_POS_CENTER); // center of screen
 
     buttonColor.set_rgba(182 / 255.0, 187 / 255.0, 196 / 255.0, 1.0);
-    textColor.set_rgba(240 / 255.0, 236 / 255.0, 229 / 255.0, 1.0);
+    textColor.set_rgba(0 / 255.0, 0 / 255.0, 0 / 255.0, 1.0);
     backgroundColor.set_rgba(22 / 255.0, 26 / 255.0, 48 / 255.0, 1.0);
     backgroundColor2.set_rgba(49 / 255.0, 48 / 255.0, 77 / 255.0, 1.0);
 
@@ -25,7 +25,7 @@ Client::Client(std::string login)
     logo.set("src/assets/logo120x120.png");
     loggedUser.set_text("Logged as: " + login);
     loggedUser.set_halign(Gtk::Align::ALIGN_CENTER);
-    loggedUser.override_color(textColor);
+    loggedUser.override_color(buttonColor);
 
     disconnect.set_label("Disconnect");
     disconnect.set_halign(Gtk::Align::ALIGN_CENTER);
@@ -55,7 +55,7 @@ Client::Client(std::string login)
     rightBox.set_size_request(900, 800);
     rightBox.set_spacing(20);
 
-    grid.set_row_spacing(10);
+    grid.set_row_spacing(5);
     grid.set_size_request(900, 700);
 
     Gtk::Image *al = Gtk::make_managed<Gtk::Image>("src/assets/add.svg");
@@ -65,7 +65,10 @@ Client::Client(std::string login)
     addLogs.set_valign(Gtk::Align::ALIGN_END);
     addLogs.override_background_color(buttonColor);
     addLogs.signal_clicked().connect(sigc::mem_fun(*this, &Client::add_password));
-
+    grid.override_background_color(backgroundColor2);
+    grid.set_hexpand(true);
+    grid.set_row_homogeneous(true);
+    grid.set_column_homogeneous(true);
     rightBox.add(grid);
     rightBox.add(addLogs);
     rightBox.override_background_color(backgroundColor2);
@@ -85,18 +88,6 @@ Client::~Client(void)
 
 void Client::add_password()
 {
-    Gtk::Box container;
-    Gtk::Box fieldContainer;
-    Gtk::Box buttonContainer;
-    Gtk::Label username;
-    Gtk::Label password;
-    Gtk::Label website;
-    Gtk::Entry usernameEntry;
-    Gtk::Entry passwordEntry;
-    Gtk::Entry websiteEntry;
-    Gtk::Button deleteButton;
-    Gtk::Button editButton;
-    Gtk::Button showButton;
 
     container.set_orientation(Gtk::Orientation::ORIENTATION_HORIZONTAL);
     fieldContainer.set_orientation(Gtk::Orientation::ORIENTATION_VERTICAL);
@@ -129,10 +120,32 @@ void Client::add_password()
     container.add(fieldContainer);
     container.add(buttonContainer);
 
-    container.set_size_request(100, 100);
-    container.set_halign(Gtk::Align::ALIGN_CENTER);
-    container.show();
-    grid.attach(container, 0, 0, 1, 1);
+    double fieldContainerWidth = container.get_allocated_width() * 0.7;
+    double fieldContainerHeight = container.get_allocated_height() * 0.7;
+
+    fieldContainer.set_size_request(fieldContainerWidth, fieldContainerHeight);
+
+    double childWidth = fieldContainerWidth * 0.9;
+    double childHeight = fieldContainerHeight * 0.15;
+
+    usernameEntry.set_size_request(childWidth, childHeight);
+    passwordEntry.set_size_request(childWidth, childHeight);
+    websiteEntry.set_size_request(childWidth, childHeight);
+
+
+    buttonContainer.set_halign(Gtk::Align::ALIGN_END);
+    buttonContainer.set_valign(Gtk::Align::ALIGN_CENTER);
+
+    container.set_valign(Gtk::Align::ALIGN_START);
+
+    buttonContainer.show_all();
+    fieldContainer.show_all();
+    container.show_all();
+    container.override_background_color(backgroundColor);
+    grid.attach(container, 0, nb_passwords, 1, 1);
+    nb_passwords++;
+    show_all_children();
+    std::cout << "add_password" << nb_passwords << std::endl;
 }
 
 void Client::edit_field(Gtk::Entry &username, Gtk::Entry &password, Gtk::Entry &website)

@@ -37,6 +37,19 @@ protected:
     Gtk::Button generate;
     Gtk::Label loggedUser;
     Gtk::Button addLogs;
+    Gtk::Box container;
+    Gtk::Box fieldContainer;
+    Gtk::Box buttonContainer;
+    Gtk::Label username;
+    Gtk::Label password;
+    Gtk::Label website;
+    Gtk::Entry usernameEntry;
+    Gtk::Entry passwordEntry;
+    Gtk::Entry websiteEntry;
+    Gtk::Button deleteButton;
+    Gtk::Button editButton;
+    Gtk::Button showButton;
+    int nb_passwords;
 };
 
 #endif // GTKMM_CLIENT_H

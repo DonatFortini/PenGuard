@@ -9,7 +9,6 @@
 
 #include "../db/db.h"
 
-
 class Manager : public Gtk::Window
 {
 public:
@@ -21,6 +20,7 @@ public:
     // signal accessors:
     using send = sigc::signal<void, std::string>;
     send logged_signal();
+
 protected:
     Gtk::Box mainBox;
     Gtk::Box fieldBox;
@@ -29,6 +29,10 @@ protected:
     Gtk::Button validate;
     Gtk::Box logoBox;
     Gtk::Image logo;
+    Gdk::RGBA textColor;
+    Gdk::RGBA backgroundColor;
+    Gdk::RGBA buttonColor;
+    Gdk::RGBA backgroundColor2;
     send logged;
 };
 

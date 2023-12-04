@@ -37,17 +37,10 @@ Manager::Manager(void) : fieldBox(Gtk::Orientation::ORIENTATION_VERTICAL)
     mainBox.set_spacing(20);
     fieldBox.set_spacing(10);
 
-    Gdk::RGBA backgroundColor;
     backgroundColor.set_rgba(22 / 255.0, 26 / 255.0, 48 / 255.0, 1.0);
-
-    Gdk::RGBA backgroundColor2;
     backgroundColor2.set_rgba(49 / 255.0, 48 / 255.0, 77 / 255.0, 1.0);
-
-    Gdk::RGBA buttonColor;
     buttonColor.set_rgba(182 / 255.0, 187 / 255.0, 196 / 255.0, 1.0);
-
-    Gdk::RGBA textColor;
-    textColor.set_rgba(240 / 255.0, 236 / 255.0, 229 / 255.0, 1.0);
+    textColor.set_rgba(0 / 255.0, 0 / 255.0, 0 / 255.0, 1.0);
 
     this->override_background_color(backgroundColor);
 
