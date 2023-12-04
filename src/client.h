@@ -19,7 +19,12 @@ public:
     void disconnect_user(void);
     void generate_logs(void);
     std::string generate_password(void);
+
 protected:
+    Gdk::RGBA backgroundColor;
+    Gdk::RGBA backgroundColor2;
+    Gdk::RGBA buttonColor;
+    Gdk::RGBA textColor;
     std::string logged_user;
     Gtk::Box mainBox;
     Gtk::Box leftBox;
@@ -27,10 +32,11 @@ protected:
     Gtk::Image logo;
     Gtk::Image logo2;
     Gtk::Button disconnect;
+    Gtk::Box filler;
+    Gtk::Grid grid;
     Gtk::Button generate;
     Gtk::Label loggedUser;
-    
-
+    Gtk::Button addLogs;
 };
 
 #endif // GTKMM_CLIENT_H

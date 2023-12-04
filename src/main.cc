@@ -13,6 +13,8 @@ void change_mainWindow(Glib::RefPtr<Gtk::Application> app, Manager &manager, con
     app->release();
 }
 
+
+
 int main(int argc, char *argv[])
 {
     Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv);

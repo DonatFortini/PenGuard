@@ -22,7 +22,6 @@ Manager::Manager(void) : fieldBox(Gtk::Orientation::ORIENTATION_VERTICAL)
     mdp.set_placeholder_text("Mot de passe");
     mdp.set_hexpand(true);
     mdp.set_visibility(false);
-    
 
     login.set_placeholder_text("Login");
     login.set_hexpand(true);
@@ -38,6 +37,26 @@ Manager::Manager(void) : fieldBox(Gtk::Orientation::ORIENTATION_VERTICAL)
     mainBox.set_spacing(20);
     fieldBox.set_spacing(10);
 
+    Gdk::RGBA backgroundColor;
+    backgroundColor.set_rgba(22 / 255.0, 26 / 255.0, 48 / 255.0, 1.0);
+
+    Gdk::RGBA backgroundColor2;
+    backgroundColor2.set_rgba(49 / 255.0, 48 / 255.0, 77 / 255.0, 1.0);
+
+    Gdk::RGBA buttonColor;
+    buttonColor.set_rgba(182 / 255.0, 187 / 255.0, 196 / 255.0, 1.0);
+
+    Gdk::RGBA textColor;
+    textColor.set_rgba(240 / 255.0, 236 / 255.0, 229 / 255.0, 1.0);
+
+    this->override_background_color(backgroundColor);
+
+    login.override_background_color(backgroundColor2);
+    login.override_color(textColor);
+    mdp.override_background_color(backgroundColor2);
+    mdp.override_color(textColor);
+    validate.override_background_color(buttonColor);
+    validate.override_color(textColor);
     mainBox.show_all();
 }
 
@@ -70,4 +89,3 @@ Manager::send Manager::logged_signal()
 {
     return logged;
 }
-
