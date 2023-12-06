@@ -8,6 +8,7 @@
 #include <gtkmm.h>
 
 #include "../db/db.h"
+#include "components/passwordBlock.h"
 
 class Client : public Gtk::Window
 {
@@ -18,6 +19,7 @@ public:
     void edit_field(Gtk::Entry &username, Gtk::Entry &password, Gtk::Entry &website);
     void disconnect_user(void);
     void generate_logs(void);
+    void show_alert(const std::string &message);
     std::string generate_password(void);
 
 protected:
@@ -28,27 +30,20 @@ protected:
     std::string logged_user;
     Gtk::Box mainBox;
     Gtk::Box leftBox;
-    Gtk::Box rightBox;
     Gtk::Image logo;
-    Gtk::Image logo2;
     Gtk::Button disconnect;
     Gtk::Box filler;
-    Gtk::Grid grid;
     Gtk::Button generate;
     Gtk::Label loggedUser;
+    Gtk::Box rightBox;
+    Gtk::Grid grid;
     Gtk::Button addLogs;
-    Gtk::Box container;
-    Gtk::Box fieldContainer;
-    Gtk::Box buttonContainer;
-    Gtk::Label username;
-    Gtk::Label password;
-    Gtk::Label website;
-    Gtk::Entry usernameEntry;
-    Gtk::Entry passwordEntry;
-    Gtk::Entry websiteEntry;
-    Gtk::Button deleteButton;
-    Gtk::Button editButton;
-    Gtk::Button showButton;
+    passwordBlock *pb1;
+    passwordBlock *pb2;
+    passwordBlock *pb3;
+    passwordBlock *pb4;
+    passwordBlock *pb5;
+    std::vector<passwordBlock *> passwordBlocks = {pb1, pb2, pb3, pb4, pb5};
     int nb_passwords;
 };
 

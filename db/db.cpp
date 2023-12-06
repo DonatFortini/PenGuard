@@ -5,7 +5,7 @@ Connection *getDB(void)
     try
     {
         Driver *driver = get_driver_instance();
-        Connection *con = driver->connect("tcp://127.0.0.1:3306", "dodo", "1973");
+        Connection *con = driver->connect("tcp://127.0.0.1:3306", "root", "1973");
         con->setSchema("penGuard");
         return con;
     }

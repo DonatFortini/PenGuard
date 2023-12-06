@@ -72,7 +72,7 @@ Client::Client(std::string login) : logged_user(login),
     rightBox.add(grid);
     rightBox.add(addLogs);
     rightBox.override_background_color(backgroundColor2);
-
+    
     // mainBox is the main container
     mainBox.pack_start(leftBox, Gtk::PackOptions::PACK_SHRINK);
     mainBox.add(rightBox);
@@ -86,67 +86,27 @@ Client::~Client(void)
 {
 }
 
+void Client::show_alert(const std::string &message)
+{
+    Gtk::MessageDialog dialog(*this, message, false, Gtk::MessageType::MESSAGE_ERROR, Gtk::ButtonsType::BUTTONS_OK, true);
+    dialog.run();
+}
+
 void Client::add_password()
 {
-
-    container.set_orientation(Gtk::Orientation::ORIENTATION_HORIZONTAL);
-    fieldContainer.set_orientation(Gtk::Orientation::ORIENTATION_VERTICAL);
-    buttonContainer.set_orientation(Gtk::Orientation::ORIENTATION_VERTICAL);
-    fieldContainer.set_spacing(10);
-
-    username.set_text("Username");
-    password.set_text("Password");
-    website.set_text("Website");
-
-    usernameEntry.set_editable(false);
-    passwordEntry.set_editable(false);
-    websiteEntry.set_editable(false);
-    passwordEntry.set_visibility(false);
-
-    fieldContainer.add(username);
-    fieldContainer.add(usernameEntry);
-    fieldContainer.add(password);
-    fieldContainer.add(passwordEntry);
-    fieldContainer.add(website);
-    fieldContainer.add(websiteEntry);
-
-    deleteButton.set_label("Delete");
-    editButton.set_label("Edit");
-    showButton.set_label("Show");
-    buttonContainer.add(deleteButton);
-    buttonContainer.add(editButton);
-    buttonContainer.add(showButton);
-
-    container.add(fieldContainer);
-    container.add(buttonContainer);
-
-    double fieldContainerWidth = container.get_allocated_width() * 0.7;
-    double fieldContainerHeight = container.get_allocated_height() * 0.7;
-
-    fieldContainer.set_size_request(fieldContainerWidth, fieldContainerHeight);
-
-    double childWidth = fieldContainerWidth * 0.9;
-    double childHeight = fieldContainerHeight * 0.15;
-
-    usernameEntry.set_size_request(childWidth, childHeight);
-    passwordEntry.set_size_request(childWidth, childHeight);
-    websiteEntry.set_size_request(childWidth, childHeight);
-
-
-    buttonContainer.set_halign(Gtk::Align::ALIGN_END);
-    buttonContainer.set_valign(Gtk::Align::ALIGN_CENTER);
-
-    container.set_valign(Gtk::Align::ALIGN_START);
-
-    buttonContainer.show_all();
-    fieldContainer.show_all();
-    container.show_all();
-    container.override_background_color(backgroundColor);
-    grid.attach(container, 0, nb_passwords, 1, 1);
+    if (nb_passwords >= 5)
+    {
+        show_alert("You can't add more than 5 passwords");
+        return;
+    }
+    
+    passwordBlocks[nb_passwords]=Gtk::make_managed<passwordBlock>("username", "password", "website");
+    grid.attach(*passwordBlocks[nb_passwords], 0, nb_passwords , 1, 1);
+    passwordBlocks[nb_passwords]->show_self();
     nb_passwords++;
     show_all_children();
-    std::cout << "add_password" << nb_passwords << std::endl;
 }
+
 
 void Client::edit_field(Gtk::Entry &username, Gtk::Entry &password, Gtk::Entry &website)
 {
