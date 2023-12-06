@@ -29,8 +29,10 @@ passwordBlock::passwordBlock(std::string username_string, std::string password_s
     for(Gtk::Entry *x : field)
     {
         x->set_editable(false);
-        x->override_background_color(backgroundColor2);
+        x->override_background_color(buttonColor);
         x->override_color(textColor);
+        x->set_size_request(700*0.8,20);
+        x->set_halign(Gtk::Align::ALIGN_CENTER);
     }
 
     set_orientation(Gtk::ORIENTATION_HORIZONTAL);

@@ -13,10 +13,19 @@
 class Client : public Gtk::Window
 {
 public:
+    typedef struct
+    {
+        std::string username;
+        std::string password;
+        std::string website;
+    } Account;
+
     Client(std::string login);
     ~Client();
     void add_password(void);
-    void edit_field(Gtk::Entry &username, Gtk::Entry &password, Gtk::Entry &website);
+    std::vector<Account> get_account(std::string login);
+    void add_account(Account account);
+    void delete_account(Account account);
     void disconnect_user(void);
     void generate_logs(void);
     void show_alert(const std::string &message);
@@ -38,12 +47,8 @@ protected:
     Gtk::Box rightBox;
     Gtk::Grid grid;
     Gtk::Button addLogs;
-    passwordBlock *pb1;
-    passwordBlock *pb2;
-    passwordBlock *pb3;
-    passwordBlock *pb4;
-    passwordBlock *pb5;
-    std::vector<passwordBlock *> passwordBlocks = {pb1, pb2, pb3, pb4, pb5};
+    Gtk::ScrolledWindow scrolledWindow;
+    std::vector<passwordBlock *> passwordBlocks;
     int nb_passwords;
 };
 

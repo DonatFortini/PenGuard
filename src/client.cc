@@ -50,13 +50,21 @@ Client::Client(std::string login) : logged_user(login),
 
     leftBox.override_background_color(backgroundColor);
 
+    
+    scrolledWindow.set_policy(Gtk::PolicyType::POLICY_AUTOMATIC, Gtk::PolicyType::POLICY_AUTOMATIC);
+    scrolledWindow.add(grid);
+    grid.set_halign(Gtk::Align::ALIGN_CENTER);
+    grid.set_valign(Gtk::Align::ALIGN_CENTER);
+    grid.set_size_request(900, 700);
+    scrolledWindow.set_size_request(900, 700);
+    scrolledWindow.show_all_children();
+
     // Right side
     rightBox.set_orientation(Gtk::Orientation::ORIENTATION_VERTICAL);
     rightBox.set_size_request(900, 800);
     rightBox.set_spacing(20);
 
-    grid.set_row_spacing(5);
-    grid.set_size_request(900, 700);
+    grid.set_row_spacing(10);
 
     Gtk::Image *al = Gtk::make_managed<Gtk::Image>("src/assets/add.svg");
     addLogs.set_image(*al);
@@ -66,10 +74,7 @@ Client::Client(std::string login) : logged_user(login),
     addLogs.override_background_color(buttonColor);
     addLogs.signal_clicked().connect(sigc::mem_fun(*this, &Client::add_password));
     grid.override_background_color(backgroundColor2);
-    grid.set_hexpand(true);
-    grid.set_row_homogeneous(true);
-    grid.set_column_homogeneous(true);
-    rightBox.add(grid);
+    rightBox.add(scrolledWindow);
     rightBox.add(addLogs);
     rightBox.override_background_color(backgroundColor2);
     
@@ -92,24 +97,34 @@ void Client::show_alert(const std::string &message)
     dialog.run();
 }
 
+//TODO
 void Client::add_password()
 {
-    if (nb_passwords >= 5)
-    {
-        show_alert("You can't add more than 5 passwords");
-        return;
-    }
-    
-    passwordBlocks[nb_passwords]=Gtk::make_managed<passwordBlock>("username", "password", "website");
-    grid.attach(*passwordBlocks[nb_passwords], 0, nb_passwords , 1, 1);
-    passwordBlocks[nb_passwords]->show_self();
+    passwordBlock *pb=Gtk::make_managed<passwordBlock>("username", "password", "website");
+    passwordBlocks.push_back(pb);
+    Gtk::Box *box = Gtk::make_managed<Gtk::Box>();
+    box->set_size_request(25,80);
+    grid.attach(*box, 0, nb_passwords, 1, 1);
+    grid.attach(*pb, 1, nb_passwords , 1, 1);
+    passwordBlocks[nb_passwords]->show_self(); 
     nb_passwords++;
     show_all_children();
 }
-
-
-void Client::edit_field(Gtk::Entry &username, Gtk::Entry &password, Gtk::Entry &website)
+//TODO
+std::vector<Client::Account> Client::get_account(std::string login)
 {
+    std::vector<Account> accounts;
+    return accounts;
+}
+//TODO
+void Client::add_account(Account account)
+{
+
+}
+//TODO
+void Client::delete_account(Account account)
+{
+
 }
 
 void Client::disconnect_user()
@@ -137,7 +152,7 @@ void Client::disconnect_user()
     dialog.set_default_size(400, 100);
     dialog.show_all_children();
     dialog.override_background_color(backgroundColor2);
-
+    //TODO
     // disconnectButton.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
     cancelButton.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
 
