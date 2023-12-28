@@ -9,6 +9,7 @@
 
 #include "../db/db.h"
 
+
 class Manager : public Gtk::Window
 {
 public:

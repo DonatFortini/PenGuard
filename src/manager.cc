@@ -64,7 +64,8 @@ void Manager::on_validate_clicked()
         show_alert("Veuillez remplir tous les champs");
         return;
     }
-    checkUser(login.get_text(), mdp.get_text()) ? logged.emit(login.get_text()) : show_alert("Login ou mot de passe incorrect");
+    // checkUser(login.get_text(), mdp.get_text()) ? logged.emit(login.get_text()) : show_alert("Login ou mot de passe incorrect");
+    std::cout << "Login: " << encrypt(mdp.get_text()) << "-" << decrypt(encrypt(mdp.get_text())) << std::endl;
 }
 
 bool Manager::is_not_empty(void)

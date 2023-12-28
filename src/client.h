@@ -10,25 +10,21 @@
 #include "../db/db.h"
 #include "components/passwordBlock.h"
 
+
 class Client : public Gtk::Window
 {
 public:
-    typedef struct
-    {
-        std::string username;
-        std::string password;
-        std::string website;
-    } Account;
-
-    Client(std::string login);
+        Client(std::string login);
     ~Client();
     void add_password(void);
-    std::vector<Account> get_account(std::string login);
+    void add_passwordBlock(std::string username, std::string password, std::string website);
+    void show_account(std::string login);
     void add_account(Account account);
     void delete_account(Account account);
     void disconnect_user(void);
     void generate_logs(void);
     void show_alert(const std::string &message);
+    void generate_block(std::string username, std::string password, std::string website);
     std::string generate_password(void);
 
 protected:
@@ -49,6 +45,7 @@ protected:
     Gtk::Button addLogs;
     Gtk::ScrolledWindow scrolledWindow;
     std::vector<passwordBlock *> passwordBlocks;
+    std::vector<Gtk::Widget *> leftWidgets = {&logo, &loggedUser, &disconnect, &filler, &generate};
     int nb_passwords;
 };
 

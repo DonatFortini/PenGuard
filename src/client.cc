@@ -42,15 +42,11 @@ Client::Client(std::string login) : logged_user(login),
     generate.override_color(textColor);
     generate.signal_clicked().connect(sigc::mem_fun(*this, &Client::generate_logs));
 
-    leftBox.add(logo);
-    leftBox.add(loggedUser);
-    leftBox.add(disconnect);
-    leftBox.add(filler);
-    leftBox.add(generate);
+    for (auto &widget : leftWidgets)
+        leftBox.add(*widget);
 
     leftBox.override_background_color(backgroundColor);
 
-    
     scrolledWindow.set_policy(Gtk::PolicyType::POLICY_AUTOMATIC, Gtk::PolicyType::POLICY_AUTOMATIC);
     scrolledWindow.add(grid);
     grid.set_halign(Gtk::Align::ALIGN_CENTER);
@@ -64,7 +60,7 @@ Client::Client(std::string login) : logged_user(login),
     rightBox.set_size_request(900, 800);
     rightBox.set_spacing(20);
 
-    grid.set_row_spacing(10);
+    grid.set_row_spacing(45);
 
     Gtk::Image *al = Gtk::make_managed<Gtk::Image>("src/assets/add.svg");
     addLogs.set_image(*al);
@@ -77,12 +73,14 @@ Client::Client(std::string login) : logged_user(login),
     rightBox.add(scrolledWindow);
     rightBox.add(addLogs);
     rightBox.override_background_color(backgroundColor2);
-    
+
     // mainBox is the main container
     mainBox.pack_start(leftBox, Gtk::PackOptions::PACK_SHRINK);
     mainBox.add(rightBox);
     mainBox.set_halign(Gtk::Align::ALIGN_CENTER);
     mainBox.set_valign(Gtk::Align::ALIGN_CENTER);
+
+    show_account(login);
 
     show_all();
 }
@@ -97,34 +95,88 @@ void Client::show_alert(const std::string &message)
     dialog.run();
 }
 
-//TODO
-void Client::add_password()
+void Client::add_password(void)
 {
-    passwordBlock *pb=Gtk::make_managed<passwordBlock>("username", "password", "website");
+    Gtk::Dialog dialog("Add password", *this);
+    Gtk::Label label("Website:");
+    Gtk::Entry entry;
+    Gtk::Label label2("Username:");
+    Gtk::Entry entry2;
+    Gtk::Label label3("Password:");
+    Gtk::Entry entry3;
+    Gtk::Box dialog_content(Gtk::ORIENTATION_VERTICAL, 10);
+    Gtk::Button add("Add");
+    Gtk::Button cancel("Cancel");
+    std::vector<Gtk::Widget *> widgets = {&label, &entry, &label2, &entry2, &label3, &entry3, &add, &cancel};
+
+    for (auto &widget : widgets)
+    {
+        dialog_content.pack_start(*widget, Gtk::PACK_SHRINK);
+        widget->set_halign(Gtk::Align::ALIGN_CENTER);
+        widget->override_color(textColor);
+    }
+
+    add.override_background_color(buttonColor);
+    cancel.override_background_color(buttonColor);
+
+    dialog.get_content_area()->add(dialog_content);
+    dialog.show_all_children();
+    dialog.set_default_size(300, 300);
+    dialog.override_background_color(backgroundColor2);
+
+    add.signal_clicked().connect([&dialog, &entry, &entry2, &entry3, this]()
+                                 {
+        if(entry.get_text().empty() || entry2.get_text().empty() || entry3.get_text().empty())
+        {
+            show_alert("Please fill all the fields");
+            return;
+        }
+        add_passwordBlock(entry2.get_text(), entry3.get_text(), entry.get_text());
+        dialog.close(); });
+
+    cancel.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
+
+    dialog.run();
+}
+
+void Client::add_passwordBlock(std::string username, std::string password, std::string website)
+{
+    generate_block(username, password, website);
+    Account acc = {username, password, website};
+    add_account(acc);
+}
+
+void Client::generate_block(std::string username, std::string password, std::string website)
+{
+    passwordBlock *pb = Gtk::make_managed<passwordBlock>(username, password, website, logged_user);
     passwordBlocks.push_back(pb);
     Gtk::Box *box = Gtk::make_managed<Gtk::Box>();
-    box->set_size_request(25,80);
+    box->set_size_request(25, 80);
     grid.attach(*box, 0, nb_passwords, 1, 1);
-    grid.attach(*pb, 1, nb_passwords , 1, 1);
-    passwordBlocks[nb_passwords]->show_self(); 
+    grid.attach(*pb, 1, nb_passwords, 1, 1);
+    passwordBlocks[nb_passwords]->show_self();
     nb_passwords++;
     show_all_children();
 }
-//TODO
-std::vector<Client::Account> Client::get_account(std::string login)
+
+void Client::show_account(std::string login)
 {
-    std::vector<Account> accounts;
-    return accounts;
+    std::vector<Account> accounts = getUserPassword(login);
+    if (accounts.empty())
+        return;
+    for (auto &account : accounts)
+    {
+        generate_block(account.username, account.password, account.website);
+    }
 }
-//TODO
+// TODO
 void Client::add_account(Account account)
 {
-
+    addUserPassword(logged_user, account.username, account.password, account.website);
 }
-//TODO
+// TODO
 void Client::delete_account(Account account)
 {
-
 }
 
 void Client::disconnect_user()
@@ -152,8 +204,8 @@ void Client::disconnect_user()
     dialog.set_default_size(400, 100);
     dialog.show_all_children();
     dialog.override_background_color(backgroundColor2);
-    //TODO
-    // disconnectButton.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
+    // TODO
+    //  disconnectButton.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
     cancelButton.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
 
     dialog.run();

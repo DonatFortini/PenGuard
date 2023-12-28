@@ -1,15 +1,24 @@
 #ifndef PASSWORDBLOCK_H
 #define PASSWORDBLOCK_H
 #include <gtkmm.h>
+#include <gtkmm/dialog.h>
 #include <string>
+
+#include "../../db/db.h"
+
 
 class passwordBlock : public Gtk::Box
 {
 public:
-    passwordBlock(std::string username_string, std::string password_string, std::string website_string);
+    passwordBlock(std::string username_string, std::string password_string, std::string website_string, std::string user_id_string);
     ~passwordBlock();
     passwordBlock();
+    void delete_self(void);
+    void edit_self(void);
+    void show_password(void);
+    std::string user_id;
     void show_self(void);
+    
 
 protected:
     Gdk::RGBA backgroundColor;

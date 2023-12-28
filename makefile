@@ -1,6 +1,5 @@
 CXX := g++
 GTKMMFLAGS := `pkg-config --libs --cflags gtkmm-3.0`
-OPENSSLFLAGS := -lssl -lcrypto
 MYSQLFLAGS := $(shell mysql_config --cflags --libs) -lmysqlcppconn
 
 BUILD_DIR := build
@@ -13,7 +12,7 @@ COMP_DIR := src/components
 HEADERS := $(SRC_DIR)/manager.h $(DB_DIR)/db.h $(COMP_DIR)/passwordBlock.h
 
 $(BUILD_DIR)/$(BIN_DIR)/main: $(BUILD_DIR)/manager.o $(BUILD_DIR)/db.o $(BUILD_DIR)/client.o $(BUILD_DIR)/passwordBlock.o
-	$(CXX) -o $@ $(SRC_DIR)/main.cc $^ $(GTKMMFLAGS) $(OPENSSLFLAGS) $(MYSQLFLAGS)
+	$(CXX) -o $@ $(SRC_DIR)/main.cc $^ $(GTKMMFLAGS) $(MYSQLFLAGS)
 
 $(BUILD_DIR)/manager.o: $(SRC_DIR)/manager.cc $(HEADERS)
 	$(CXX) -c $(SRC_DIR)/manager.cc $(GTKMMFLAGS) -o $(BUILD_DIR)/manager.o
