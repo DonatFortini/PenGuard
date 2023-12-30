@@ -4,7 +4,7 @@ PenGuard est un gestionnaire de mots de passe simple et sécurisé développé e
 
 ## Fonctionnalités
 
-- **Stockage sécurisé des mots de passe :** PenGuard utilise une encryption robuste pour garantir la sécurité de vos informations sensibles.
+- **Stockage sécurisé des mots de passe :** PenGuard utilise une encryption robuste (AES) pour garantir la sécurité de vos informations sensibles.
   
 - **Génération d'identifiants aléatoires :** Créez des identifiants forts et aléatoires pour renforcer la sécurité de vos comptes en ligne.
 
@@ -12,19 +12,24 @@ PenGuard est un gestionnaire de mots de passe simple et sécurisé développé e
 
 ## Captures d'écran
 
-![Capture d'écran 1](url_de_l_image_1)
-*Description de la capture d'écran 1*
+![Capture d'écran 1](/src/assets/screenshots/login.png)
+*écran de connexion*
 
-![Capture d'écran 2](url_de_l_image_2)
-*Description de la capture d'écran 2*
+![Capture d'écran 2](/src/assets/screenshots/logged.png)
+*page d'acceuil affichant tout les mot de passe de votre compte*
 
 ## Prérequis
 
 - **GTKmm :** Assurez-vous d'avoir GTKmm installé sur votre système. Vous pouvez le télécharger [ici](https://www.gtkmm.org/).
 
-- **mysql-lib-dev** Assurez-vous d'avoir GTKmm installé sur votre système. Vous pouvez le télécharger avec cette commande :
+- **mysql-lib-dev** Assurez-vous d'avoir mysql-lib et mysql installé sur votre système. Vous pouvez le télécharger avec cette commande :
 ```bash
 sudo apt install libmysqlcppconn-dev
+```
+
+- **crypto++** Assurez-vous d'avoir Crypto++ sur votre système. Vous pouvez le télécharger avec cette commande :
+```bash
+sudo apt-get install libcrypto++-dev
 ```
  
 - **Compilateur C++ :** Un compilateur C++ compatible C++11 est nécessaire. Vous pouvez utiliser GCC, Clang, ou tout autre compilateur compatible.

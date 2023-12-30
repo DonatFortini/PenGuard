@@ -7,8 +7,9 @@
 #include <gtkmm/image.h>
 #include <gtkmm.h>
 
-#include "../db/db.h"
+
 #include "components/passwordBlock.h"
+
 
 
 class Client : public Gtk::Window

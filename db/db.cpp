@@ -5,7 +5,7 @@ Connection *getDB(void)
     try
     {
         Driver *driver = get_driver_instance();
-        Connection *con = driver->connect("tcp://127.0.0.1:3306", "root", "1973");
+        Connection *con = driver->connect("tcp://127.0.0.1:3306", "dodo", "1973");
         con->setSchema("penGuard");
         return con;
     }
@@ -87,7 +87,7 @@ std::vector<Account> getUserPassword(std::string user_id)
     {
         Account acc;
         acc.username = res->getString(1);
-        acc.password = decrypt(res->getString(2));
+        acc.password = encrypt(res->getString(2), false);
         acc.website = res->getString(3);
         accounts.push_back(acc);
     }
@@ -129,32 +129,30 @@ bool editUserPassword(std::string user_id, std::string username, std::string pas
     return true;
 }
 
-std::string encrypt(std::string to_encrypt)
+std::string encrypt(std::string input, bool mode)
 {
-    std::string key = "aptenodytes42069";
-    std::string encrypted;
-    for(size_t i = 0; i < to_encrypt.length(); i++)
-    {
-        char c = to_encrypt[i];
-        char k = key[i % key.length()];
-        c = c >> (k % 8);
-        encrypted += c;
+    std::string key = "aptenodyte42069";
+    std::string iv = "empororfeathers";
+    std::string result;
+
+    if (mode)
+    { // Encrypt
+        CryptoPP::AES::Encryption aesEncryption((unsigned char *)key.c_str(), CryptoPP::AES::DEFAULT_KEYLENGTH);
+        CryptoPP::CBC_Mode_ExternalCipher::Encryption cbcEncryption(aesEncryption, (unsigned char *)iv.c_str());
+        CryptoPP::StringSource(input, true,
+                               new CryptoPP::StreamTransformationFilter(cbcEncryption,
+                                                                        new CryptoPP::Base64Encoder(
+                                                                            new CryptoPP::StringSink(result), false)));
     }
-    
-}
-
-std::string decrypt(std::string to_decrypt)
-{
-    std::string key = "aptenodytes42069";
-    std::string decrypted;
-
-    for (size_t i = 0; i < to_decrypt.length(); i++)
-    {
-        char c = to_decrypt[i];
-        char k = key[i % key.length()];
-        c = c << (k % 8);
-        decrypted += c;
+    else
+    { // Decrypt
+        CryptoPP::AES::Decryption aesDecryption((unsigned char *)key.c_str(), CryptoPP::AES::DEFAULT_KEYLENGTH);
+        CryptoPP::CBC_Mode_ExternalCipher::Decryption cbcDecryption(aesDecryption, (unsigned char *)iv.c_str());
+        CryptoPP::StringSource(input, true,
+                               new CryptoPP::Base64Decoder(
+                                   new CryptoPP::StreamTransformationFilter(cbcDecryption,
+                                                                            new CryptoPP::StringSink(result))));
     }
 
-    return decrypted;
+    return result;
 }

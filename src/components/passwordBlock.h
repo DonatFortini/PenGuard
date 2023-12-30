@@ -6,7 +6,6 @@
 
 #include "../../db/db.h"
 
-
 class passwordBlock : public Gtk::Box
 {
 public:
@@ -18,7 +17,6 @@ public:
     void show_password(void);
     std::string user_id;
     void show_self(void);
-    
 
 protected:
     Gdk::RGBA backgroundColor;

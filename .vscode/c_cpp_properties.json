@@ -29,7 +29,8 @@
                 "/usr/include/pangomm-1.4",
                 "/usr/include/atkmm-1.6",
                 "/usr/lib/x86_64-linux-gnu/atkmm-1.6/include",
-                "/usr/include/atk-1.0"
+                "/usr/include/atk-1.0",
+                "/usr/include/cryptopp"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",
