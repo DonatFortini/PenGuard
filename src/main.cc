@@ -16,7 +16,6 @@ void change_mainWindow(Glib::RefPtr<Gtk::Application> app, Manager &manager, con
 int main(int argc, char *argv[])
 {
     Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv);
-
     Manager manager;
     std::string emissionString;
     manager.logged_signal().connect([&app, &manager](const std::string &emission)

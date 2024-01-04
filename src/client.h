@@ -18,6 +18,7 @@ public:
     Client(std::string login);
     ~Client();
     void add_password(void);
+    void add_password_dist(std::string wb, std::string usr, std::string pwd);
     void add_passwordBlock(std::string username, std::string password, std::string website);
     void show_account(std::string login);
     void add_account(Account account);

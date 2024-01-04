@@ -19,13 +19,25 @@ logGenDiag::logGenDiag(std::string user_id_string)
     buttons.set_spacing(10);
     buttons.pack_start(this->generate, Gtk::PACK_SHRINK);
     buttons.pack_end(this->create, Gtk::PACK_SHRINK);
+    this->generate.override_background_color(buttonColor);
+    this->create.override_background_color(buttonColor);
     this->mainBox.pack_start(this->fieldBox, Gtk::PACK_SHRINK);
     this->mainBox.pack_end(this->buttons, Gtk::PACK_SHRINK);
     this->mainBox.set_orientation(Gtk::ORIENTATION_VERTICAL);
     this->mainBox.set_spacing(20);
     this->get_content_area()->add(this->mainBox);
-    
+
     this->generate.signal_clicked().connect(sigc::mem_fun(*this, &logGenDiag::generate_password));
+    this->create.signal_clicked().connect([this]()
+                                          {
+            if (this->usrEntry.get_text().empty() || this->pwdEntry.get_text().empty())
+            {
+                show_alert("Please fill all the fields", this);
+                return;
+            }
+            //TODO : add signal connect to manager
+            
+            close(); });
 
     this->show_all_children();
 }
@@ -47,5 +59,3 @@ void logGenDiag::generate_password(void)
         password += chars[rand() % chars.size()];
     this->pwdEntry.set_text(password);
 }
-
-

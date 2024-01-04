@@ -90,6 +90,12 @@ void Client::add_password(void)
     addPwd->run();
 }
 
+void Client::add_password_dist(std::string wb, std::string usr, std::string pwd)
+{
+    addPwdDiag *addPwd =new addPwdDiag(wb, usr, pwd);
+    addPwd->run();
+}
+
 void Client::add_passwordBlock(std::string username, std::string password, std::string website)
 {
     generate_block(username, password, website);
