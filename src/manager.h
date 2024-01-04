@@ -8,8 +8,7 @@
 #include <gtkmm.h>
 
 #include "../db/db.h"
-
-
+#include "utilsCache.h"
 
 class Manager : public Gtk::Window
 {
@@ -18,7 +17,6 @@ public:
     ~Manager();
     void on_validate_clicked(void);
     bool is_not_empty(void);
-    void show_alert(const std::string &message);
     // signal accessors:
     using send = sigc::signal<void, std::string>;
     send logged_signal();
@@ -31,10 +29,6 @@ protected:
     Gtk::Button validate;
     Gtk::Box logoBox;
     Gtk::Image logo;
-    Gdk::RGBA textColor;
-    Gdk::RGBA backgroundColor;
-    Gdk::RGBA buttonColor;
-    Gdk::RGBA backgroundColor2;
     send logged;
 };
 

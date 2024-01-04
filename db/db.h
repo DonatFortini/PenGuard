@@ -18,7 +18,6 @@
 #include <iomanip>
 #include <vector>
 
-
 using namespace sql;
 
 typedef struct

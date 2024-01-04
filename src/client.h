@@ -7,32 +7,25 @@
 #include <gtkmm/image.h>
 #include <gtkmm.h>
 
-
+#include "utilsCache.h"
+#include "components/logGenDiag.h"
+#include "components/addPwdDiag.h"
 #include "components/passwordBlock.h"
-
-
 
 class Client : public Gtk::Window
 {
 public:
-        Client(std::string login);
+    Client(std::string login);
     ~Client();
     void add_password(void);
     void add_passwordBlock(std::string username, std::string password, std::string website);
     void show_account(std::string login);
     void add_account(Account account);
-    void delete_account(Account account);
     void disconnect_user(void);
-    void generate_logs(void);
-    void show_alert(const std::string &message);
     void generate_block(std::string username, std::string password, std::string website);
-    std::string generate_password(void);
+    void generate_logs(void);
 
 protected:
-    Gdk::RGBA backgroundColor;
-    Gdk::RGBA backgroundColor2;
-    Gdk::RGBA buttonColor;
-    Gdk::RGBA textColor;
     std::string logged_user;
     Gtk::Box mainBox;
     Gtk::Box leftBox;

@@ -2,10 +2,6 @@
 
 passwordBlock::passwordBlock(std::string username_string, std::string password_string, std::string website_string, std::string user_id_string)
 {
-    buttonColor.set_rgba(182 / 255.0, 187 / 255.0, 196 / 255.0, 1.0);
-    textColor.set_rgba(0 / 255.0, 0 / 255.0, 0 / 255.0, 1.0);
-    backgroundColor.set_rgba(22 / 255.0, 26 / 255.0, 48 / 255.0, 1.0);
-    backgroundColor2.set_rgba(49 / 255.0, 48 / 255.0, 77 / 255.0, 1.0);
     this->user_id = user_id_string;
 
     usernameEntry.set_text(username_string);

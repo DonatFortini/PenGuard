@@ -132,7 +132,7 @@ bool editUserPassword(std::string user_id, std::string username, std::string pas
 std::string encrypt(std::string input, bool mode)
 {
     std::string key = "aptenodyte42069";
-    std::string iv = "empororfeathers";
+    std::string iv = "emperorfeathers";
     std::string result;
 
     if (mode)

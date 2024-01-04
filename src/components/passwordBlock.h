@@ -5,6 +5,9 @@
 #include <string>
 
 #include "../../db/db.h"
+#include "../utilsCache.h"
+
+
 
 class passwordBlock : public Gtk::Box
 {
@@ -19,10 +22,6 @@ public:
     void show_self(void);
 
 protected:
-    Gdk::RGBA backgroundColor;
-    Gdk::RGBA backgroundColor2;
-    Gdk::RGBA buttonColor;
-    Gdk::RGBA textColor;
     Gtk::Box fieldContainer = Gtk::Box(Gtk::ORIENTATION_VERTICAL, 10);
     Gtk::Box buttonContainer = Gtk::Box(Gtk::ORIENTATION_VERTICAL, 10);
     Gtk::Label username = Gtk::Label("Username");

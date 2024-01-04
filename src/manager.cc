@@ -37,11 +37,6 @@ Manager::Manager(void) : fieldBox(Gtk::Orientation::ORIENTATION_VERTICAL)
     mainBox.set_spacing(20);
     fieldBox.set_spacing(10);
 
-    backgroundColor.set_rgba(22 / 255.0, 26 / 255.0, 48 / 255.0, 1.0);
-    backgroundColor2.set_rgba(49 / 255.0, 48 / 255.0, 77 / 255.0, 1.0);
-    buttonColor.set_rgba(182 / 255.0, 187 / 255.0, 196 / 255.0, 1.0);
-    textColor.set_rgba(0 / 255.0, 0 / 255.0, 0 / 255.0, 1.0);
-
     this->override_background_color(backgroundColor);
 
     login.override_background_color(backgroundColor2);
@@ -61,21 +56,15 @@ void Manager::on_validate_clicked()
 {
     if (!is_not_empty())
     {
-        show_alert("Veuillez remplir tous les champs");
+        show_alert("Veuillez remplir tous les champs", this);
         return;
     }
-    checkUser(login.get_text(), mdp.get_text()) ? logged.emit(login.get_text()) : show_alert("Login ou mot de passe incorrect");
+    checkUser(login.get_text(), mdp.get_text()) ? logged.emit(login.get_text()) : show_alert("Login ou mot de passe incorrect", this);
 }
 
 bool Manager::is_not_empty(void)
 {
     return login.get_text() != "" && mdp.get_text() != "";
-}
-
-void Manager::show_alert(const std::string &message)
-{
-    Gtk::MessageDialog dialog(*this, message, false, Gtk::MessageType::MESSAGE_ERROR, Gtk::ButtonsType::BUTTONS_OK, true);
-    dialog.run();
 }
 
 Manager::send Manager::logged_signal()

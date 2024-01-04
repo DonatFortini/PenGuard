@@ -13,6 +13,7 @@ PenGuard est un gestionnaire de mots de passe simple et sécurisé développé e
 ## Captures d'écran
 
 ![Capture d'écran 1](/src/assets/screenshots/login.png)
+
 *écran de connexion*
 
 ![Capture d'écran 2](/src/assets/screenshots/logged.png)

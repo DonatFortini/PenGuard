@@ -9,23 +9,26 @@ SRC_DIR := src
 DB_DIR := db
 COMP_DIR := src/components
 
+HEADERS := $(SRC_DIR)/utilsCache.h $(SRC_DIR)/manager.h $(SRC_DIR)/client.h $(DB_DIR)/db.h $(COMP_DIR)/passwordBlock.h $(COMP_DIR)/logGenDiag.h
 
-HEADERS := $(SRC_DIR)/manager.h $(DB_DIR)/db.h $(COMP_DIR)/passwordBlock.h
 
-$(BUILD_DIR)/$(BIN_DIR)/main: $(BUILD_DIR)/manager.o $(BUILD_DIR)/db.o $(BUILD_DIR)/client.o $(BUILD_DIR)/passwordBlock.o
+OBJECTS := $(BUILD_DIR)/utilsCache.o $(BUILD_DIR)/manager.o $(BUILD_DIR)/db.o \
+           $(BUILD_DIR)/client.o $(BUILD_DIR)/passwordBlock.o $(BUILD_DIR)/logGenDiag.o $(BUILD_DIR)/addPwdDiag.o
+
+
+$(BUILD_DIR)/$(BIN_DIR)/main: $(OBJECTS)
 	$(CXX) -o $@ $(SRC_DIR)/main.cc $^ $(GTKMMFLAGS) $(MYSQLFLAGS) $(CRYPTOFLAGS)
 
-$(BUILD_DIR)/manager.o: $(SRC_DIR)/manager.cc $(HEADERS)
-	$(CXX) -c $(SRC_DIR)/manager.cc $(GTKMMFLAGS) -o $(BUILD_DIR)/manager.o
 
-$(BUILD_DIR)/client.o: $(SRC_DIR)/client.cc $(BUILD_DIR)/passwordBlock.o $(HEADERS) 
-	$(CXX) -c $(SRC_DIR)/client.cc  $(GTKMMFLAGS) -o $(BUILD_DIR)/client.o 
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc $(HEADERS)
+	$(CXX) -c $< $(GTKMMFLAGS) -o $@
 
-$(BUILD_DIR)/passwordBlock.o:  $(COMP_DIR)/passwordBlock.cc $(HEADERS)
-	$(CXX) -c $(COMP_DIR)/passwordBlock.cc $(GTKMMFLAGS) -o $(BUILD_DIR)/passwordBlock.o
+$(BUILD_DIR)/%.o: $(DB_DIR)/%.cpp $(HEADERS)
+	$(CXX) -c $< $(GTKMMFLAGS) -o $@ $(CRYPTOFLAGS)
 
-$(BUILD_DIR)/db.o: $(DB_DIR)/db.cpp $(HEADERS)
-	$(CXX) -c $(DB_DIR)/db.cpp $(GTKMMFLAGS)  -o $(BUILD_DIR)/db.o $(CRYPTOFLAGS)
+$(BUILD_DIR)/%.o: $(COMP_DIR)/%.cc $(HEADERS)
+	$(CXX) -c $< $(GTKMMFLAGS) -o $@
+
 
 clean:
 	rm -rf $(BUILD_DIR)/*.o $(BUILD_DIR)/$(BIN_DIR)/main
@@ -33,6 +36,6 @@ clean:
 run:
 	make clean
 	make
-	./build/bin/main
+	./$(BUILD_DIR)/$(BIN_DIR)/main
 
 .PHONY: all clean run
