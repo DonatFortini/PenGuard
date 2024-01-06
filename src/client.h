@@ -19,7 +19,7 @@ public:
     ~Client();
     void add_password(void);
     void add_password_dist(std::string wb, std::string usr, std::string pwd);
-    void add_passwordBlock(std::string username, std::string password, std::string website);
+    void add_passwordBlock(std::string website, std::string username, std::string password);
     void show_account(std::string login);
     void add_account(Account account);
     void disconnect_user(void);
@@ -42,6 +42,8 @@ protected:
     std::vector<passwordBlock *> passwordBlocks;
     std::vector<Gtk::Widget *> leftWidgets = {&logo, &loggedUser, &disconnect, &filler, &generate};
     int nb_passwords;
+    addPwdDiag *addPwd;
+    logGenDiag *logGen;
 };
 
 #endif // GTKMM_CLIENT_H

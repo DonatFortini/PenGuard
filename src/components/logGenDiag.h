@@ -3,18 +3,19 @@
 #include <gtkmm.h>
 #include <gtkmm/dialog.h>
 #include <string>
+#include <iostream>
 
-#include "../client.h"
 #include "../utilsCache.h"
 
 class logGenDiag : public Gtk::Dialog
 {
 public:
     logGenDiag(std::string user_id_string);
-    logGenDiag();
     ~logGenDiag();
     std::string user_id;
     void generate_password(void);
+    using send = sigc::signal<void, std::string, std::string, std::string>;
+    send loggen_signal();
 
 protected:
     Gtk::Box mainBox;
@@ -27,6 +28,7 @@ protected:
     Gtk::Box buttons;
     Gtk::Button generate = Gtk::Button("Generate");
     Gtk::Button create = Gtk::Button("Create");
+    send loggen;
 };
 
 #endif // !LOGGENDIAG_H

@@ -6,8 +6,8 @@ Client::Client(std::string login) : logged_user(login),
     set_icon_from_file("src/assets/logo120x120.png");
     set_name("PenGuard");
     set_title("PenGuard");
-    set_default_size(1200, 800);                       // width, height
-    set_position(Gtk::WindowPosition::WIN_POS_CENTER); // center of screen
+    set_default_size(1200, 800);                       
+    set_position(Gtk::WindowPosition::WIN_POS_CENTER);
 
     mainBox.set_orientation(Gtk::Orientation::ORIENTATION_HORIZONTAL);
     add(mainBox);
@@ -69,7 +69,6 @@ Client::Client(std::string login) : logged_user(login),
     rightBox.add(addLogs);
     rightBox.override_background_color(backgroundColor2);
 
-    // mainBox is the main container
     mainBox.pack_start(leftBox, Gtk::PackOptions::PACK_SHRINK);
     mainBox.add(rightBox);
     mainBox.set_halign(Gtk::Align::ALIGN_CENTER);
@@ -86,18 +85,22 @@ Client::~Client(void)
 
 void Client::add_password(void)
 {
-    addPwdDiag *addPwd =new addPwdDiag();
+    addPwd = new addPwdDiag("", "", "");
+    addPwd->addpwd_signal().connect(sigc::mem_fun(*this, &Client::add_passwordBlock));
     addPwd->run();
 }
 
 void Client::add_password_dist(std::string wb, std::string usr, std::string pwd)
 {
-    addPwdDiag *addPwd =new addPwdDiag(wb, usr, pwd);
+    logGen->~logGenDiag();
+    addPwd = new addPwdDiag(wb, usr, pwd);
+    addPwd->addpwd_signal().connect(sigc::mem_fun(*this, &Client::add_passwordBlock));
     addPwd->run();
 }
 
-void Client::add_passwordBlock(std::string username, std::string password, std::string website)
+void Client::add_passwordBlock(std::string website, std::string username , std::string password)
 {
+    addPwd->~addPwdDiag();
     generate_block(username, password, website);
     Account acc = {username, password, website};
     add_account(acc);
@@ -122,9 +125,7 @@ void Client::show_account(std::string login)
     if (accounts.empty())
         return;
     for (auto &account : accounts)
-    {
         generate_block(account.username, account.password, account.website);
-    }
 }
 
 void Client::add_account(Account account)
@@ -166,6 +167,7 @@ void Client::disconnect_user()
 
 void Client::generate_logs(void)
 {
-    logGenDiag *logGen = new logGenDiag(logged_user);
+    logGen = new logGenDiag(logged_user);
+    logGen->loggen_signal().connect(sigc::mem_fun(*this, &Client::add_password_dist));
     logGen->run();
 }

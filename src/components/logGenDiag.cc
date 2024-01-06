@@ -26,7 +26,7 @@ logGenDiag::logGenDiag(std::string user_id_string)
     this->mainBox.set_orientation(Gtk::ORIENTATION_VERTICAL);
     this->mainBox.set_spacing(20);
     this->get_content_area()->add(this->mainBox);
-
+    this->show_all_children();
     this->generate.signal_clicked().connect(sigc::mem_fun(*this, &logGenDiag::generate_password));
     this->create.signal_clicked().connect([this]()
                                           {
@@ -35,16 +35,7 @@ logGenDiag::logGenDiag(std::string user_id_string)
                 show_alert("Please fill all the fields", this);
                 return;
             }
-            //TODO : add signal connect to manager
-            
-            close(); });
-
-    this->show_all_children();
-}
-
-logGenDiag::logGenDiag()
-{
-    logGenDiag("test");
+            this->loggen.emit("", this->usrEntry.get_text(), this->pwdEntry.get_text()); });
 }
 
 logGenDiag::~logGenDiag()
@@ -58,4 +49,9 @@ void logGenDiag::generate_password(void)
     for (int i = 0; i < 16; ++i)
         password += chars[rand() % chars.size()];
     this->pwdEntry.set_text(password);
+}
+
+logGenDiag::send logGenDiag::loggen_signal()
+{
+    return this->loggen;
 }
