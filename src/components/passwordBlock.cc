@@ -146,10 +146,8 @@ void passwordBlock::edit_self(void)
     dialog.override_background_color(backgroundColor2);
 
     editButton.signal_clicked().connect([&dialog, &usernameEntry, &passwordEntry, &websiteEntry, this](void) -> void
-                                        {
-                                            std::cout << "edit " << this->user_id << std::endl;
+                                        {                         
             editUserPassword(user_id, this->usernameEntry.get_text(), this->passwordEntry.get_text(), this->websiteEntry.get_text(), usernameEntry.get_text(), passwordEntry.get_text(), websiteEntry.get_text());
-            std::cout << "edit done" << this->user_id << std::endl;
             this->usernameEntry.set_text(usernameEntry.get_text());
             this->passwordEntry.set_text(passwordEntry.get_text());
             this->websiteEntry.set_text(websiteEntry.get_text());

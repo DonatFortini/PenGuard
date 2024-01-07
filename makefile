@@ -12,8 +12,9 @@ COMP_DIR := src/components
 HEADERS := $(SRC_DIR)/utilsCache.h $(SRC_DIR)/manager.h $(SRC_DIR)/client.h $(DB_DIR)/db.h $(COMP_DIR)/passwordBlock.h $(COMP_DIR)/logGenDiag.h 
 
 
-OBJECTS := $(BUILD_DIR)/utilsCache.o $(BUILD_DIR)/manager.o $(BUILD_DIR)/db.o \
-           $(BUILD_DIR)/client.o $(BUILD_DIR)/passwordBlock.o $(BUILD_DIR)/logGenDiag.o $(BUILD_DIR)/addPwdDiag.o $(BUILD_DIR)/disconnectDiag.o 
+OBJECTS := $(filter-out $(BUILD_DIR)/main.o,$(patsubst $(SRC_DIR)/%.cc,$(BUILD_DIR)/%.o,$(wildcard $(SRC_DIR)/*.cc))) \
+		   $(patsubst $(DB_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(wildcard $(DB_DIR)/*.cpp)) \
+		   $(patsubst $(COMP_DIR)/%.cc,$(BUILD_DIR)/%.o,$(wildcard $(COMP_DIR)/*.cc))
 
 
 $(BUILD_DIR)/$(BIN_DIR)/main: $(OBJECTS)
