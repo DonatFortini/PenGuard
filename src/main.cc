@@ -2,24 +2,38 @@
 #include "client.h"
 
 #include <gtkmm/application.h>
-
-void change_mainWindow(Glib::RefPtr<Gtk::Application> app, Manager &manager, const std::string &emission)
-{
-    manager.hide();
-    app->hold();
-    app->remove_window(manager);
-    Client *client = new Client(emission);
-    app->add_window(*client);
-    app->release();
-}
+#include <memory>
 
 int main(int argc, char *argv[])
 {
     Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv);
-    Manager manager;
-    std::string emissionString;
-    manager.logged_signal().connect([&app, &manager](const std::string &emission)
-                                    { change_mainWindow(app, manager, emission); });
 
-    return app->run(manager, argc, argv);
+    auto manager = std::make_shared<Manager>();
+
+    std::string emissionString;
+    manager->logged_signal().connect([app, manager, &emissionString](const std::string &emission)
+    {
+        manager->hide();
+
+        auto client = std::make_shared<Client>(emission);
+        app->add_window(*client);
+
+        client->cl_signal().connect([app, manager, client]()
+        {
+            app->hold();
+            app->remove_window(*client);
+            std::cout << "Closing client..." << std::endl;
+            client->~Client();
+            std::cout << "Clos..." << std::endl;
+            std::cout << "folo." << std::endl;
+            manager->show();
+            app->add_window(*manager);
+            std::cout << "folsssso." << std::endl;
+            app->release();
+            //TODO : fix seg fault when disconnecting
+        });
+        
+    });
+
+    return app->run(*manager, argc, argv);
 }

@@ -1,9 +1,8 @@
 #ifndef LOGGENDIAG_H
 #define LOGGENDIAG_H
 #include <gtkmm.h>
-#include <gtkmm/dialog.h>
 #include <string>
-#include <iostream>
+
 
 #include "../utilsCache.h"
 

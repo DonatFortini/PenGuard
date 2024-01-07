@@ -11,6 +11,7 @@
 #include "components/logGenDiag.h"
 #include "components/addPwdDiag.h"
 #include "components/passwordBlock.h"
+#include "components/disconnectDiag.h"
 
 class Client : public Gtk::Window
 {
@@ -25,6 +26,9 @@ public:
     void disconnect_user(void);
     void generate_block(std::string username, std::string password, std::string website);
     void generate_logs(void);
+    using cl_ses = sigc::signal<void>;
+    cl_ses cl_signal();
+    void close_session();
 
 protected:
     std::string logged_user;
@@ -44,6 +48,8 @@ protected:
     int nb_passwords;
     addPwdDiag *addPwd;
     logGenDiag *logGen;
+    DisconnectDiag *dcDiag;
+    cl_ses cl;
 };
 
 #endif // GTKMM_CLIENT_H

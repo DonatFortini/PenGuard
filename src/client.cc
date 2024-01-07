@@ -135,34 +135,20 @@ void Client::add_account(Account account)
 
 void Client::disconnect_user()
 {
-    Gtk::Dialog dialog("Disconnect", *this);
-    Gtk::Label label("Are you sure you want to disconnect?");
-    Gtk::Button disconnectButton("Disconnect");
-    Gtk::Button cancelButton("Cancel");
-    Gtk::Box dialogContent(Gtk::ORIENTATION_VERTICAL, 10);
+    dcDiag = new DisconnectDiag();
+    dcDiag->dc_signal().connect(sigc::mem_fun(*this, &Client::close_session));
+    dcDiag->run();
+}
 
-    dialogContent.pack_start(label, Gtk::PACK_SHRINK);
-    dialogContent.pack_start(disconnectButton, Gtk::PACK_SHRINK);
-    dialogContent.pack_start(cancelButton, Gtk::PACK_SHRINK);
+void Client::close_session()
+{
+    dcDiag->~DisconnectDiag();
+    cl.emit();
+}
 
-    disconnectButton.set_halign(Gtk::Align::ALIGN_CENTER);
-    disconnectButton.override_background_color(buttonColor);
-    disconnectButton.override_color(textColor);
-    cancelButton.set_halign(Gtk::Align::ALIGN_CENTER);
-    cancelButton.override_background_color(buttonColor);
-    cancelButton.override_color(textColor);
-    label.set_halign(Gtk::Align::ALIGN_CENTER);
-    label.override_color(textColor);
-
-    dialog.get_content_area()->add(dialogContent);
-    dialog.set_default_size(400, 100);
-    dialog.show_all_children();
-    dialog.override_background_color(backgroundColor2);
-    // TODO
-    //  disconnectButton.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
-    cancelButton.signal_clicked().connect(sigc::mem_fun(dialog, &Gtk::Dialog::close));
-
-    dialog.run();
+Client::cl_ses Client::cl_signal()
+{
+    return cl;
 }
 
 void Client::generate_logs(void)
